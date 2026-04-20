@@ -1,5 +1,6 @@
 const {AirplaneService}=require('../services');
 const {StatusCodes}=require('http-status-codes');
+const {SuccessResponse,ErrorResponse}=require('../utils/common');
 
 async function createAirplane(req,res){
     try {
@@ -7,22 +8,52 @@ async function createAirplane(req,res){
             modelNumber:req.body.modelNumber,
             capacity:req.body.capacity
         })
-        return res.status(StatusCodes.CREATED).json({
-            success:true,
-            message:"Successfully created an airplane",
-            data:airplane,
-            error:{}
-        })
+        SuccessResponse.data=airplane;
+        return res.status(StatusCodes.CREATED).json(SuccessResponse)
+
     } catch (error) {
-         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-            success:false,
-            message:"Something went wrong while creating an airplane",
-            data:{},
-            error:error
-        })
+        ErrorResponse.error=error;
+         return res.status(error.statusCode).json(ErrorResponse)
     }
 }
 
+async function getAirplanes(req,res){
+    try {
+        const airplanes=await AirplaneService.getAirplanes();
+        SuccessResponse.data=airplanes;
+        return res.status(StatusCodes.OK).json(SuccessResponse);
+    } catch (error) {
+        ErrorResponse.error=error;
+        return res.status(error.statusCode).json(ErrorResponse);
+    }
+}
+
+async function getAirplane(req,res){
+    try {
+        const airplane=await AirplaneService.getAirplane(req.params.id);
+        SuccessResponse.data=airplane;
+        return res.status(StatusCodes.OK).json(SuccessResponse);
+    } catch (error) {
+        ErrorResponse.error=error;
+        return res.status(error.statusCode).json(ErrorResponse);
+    }
+}
+
+async function destroyAirplane(req,res){
+    try {
+        const airplane=await AirplaneService.destroyAirplane(req.params.id);
+        SuccessResponse.data=airplane;
+        return res.status(StatusCodes.OK).json(SuccessResponse);
+    } catch (error) {
+        ErrorResponse.error=error;
+        return res.status(error.statusCode).json(ErrorResponse);
+    }
+}
+
+
 module.exports={
-    createAirplane
+    createAirplane,
+    getAirplanes,
+    getAirplane,
+    destroyAirplane
 }

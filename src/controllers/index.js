@@ -1,4 +1,3 @@
-const { AirplaneService } = require('../services');
 
 module.exports={
     InfoController:require('./info-controller'),
