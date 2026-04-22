@@ -10,6 +10,8 @@ router.post('/',
 
 router.patch('/:id',FlightController.updateFlight);
 
+router.get('/',
+    FlightController.getAllFlights);
 
 
 
