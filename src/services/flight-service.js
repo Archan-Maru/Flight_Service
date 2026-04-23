@@ -67,7 +67,7 @@ async function getAllFlights(query){
     }
     if(query.tripDate) {
         customFilter.departureTime = {
-            [Op.between]: [query. tripDate,query.tripDate+endTrip]
+            [Op.between]: [query.tripDate,query.tripDate + endTrip]
         }
     }
     if(query.sort){
@@ -76,7 +76,7 @@ async function getAllFlights(query){
     sortFilter = sortFilters
 }
     try {
-        const flights=await flightRepository.getAllFlights(customFilter.sortFilter);
+        const flights=await flightRepository.getAllFlights(customFilter, sortFilter);
         return flights;
     } catch (error) {
         throw new AppError('Cannot fetch data of flights',StatusCodes.INTERNAL_SERVER_ERROR);
