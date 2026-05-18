@@ -70,6 +70,19 @@ function validateCreateRequest(req,res,next){
     next();
 }
 
+function updateValidateRequest(req,res,next){
+     if(!req.body || !req.body.seats){
+        ErrorResponse.message="Something went wrong while updating flights";
+        
+        ErrorResponse.error=new AppError(["Total seats is not defined"],StatusCodes.BAD_REQUEST);
+        return res.status(StatusCodes.BAD_REQUEST).json(
+           ErrorResponse
+        )
+    }
+    next();
+}
+
 module.exports={
-    validateCreateRequest
+    validateCreateRequest,
+    updateValidateRequest
 }

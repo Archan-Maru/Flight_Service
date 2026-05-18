@@ -13,6 +13,11 @@ router.patch('/:id',FlightController.updateFlight);
 router.get('/',
     FlightController.getAllFlights);
 
+router.get('/:id',
+    FlightController.getFlight);
 
+router.patch('/:id/seats',FlightMiddlewares.updateValidateRequest,
+    FlightController.updateSeats
+);
 
 module.exports=router;
